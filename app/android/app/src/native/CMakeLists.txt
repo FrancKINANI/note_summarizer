@@ -2,55 +2,55 @@ cmake_minimum_required(VERSION 3.18)
 
 project(ai_edge_native)
 
+# Force NDK search paths and prevent host leak
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
+
+# Force the use of the NDK-provided sysroot only
+if(ANDROID)
+    set(CMAKE_SYSROOT ${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/sysroot)
+    add_definitions(-DGGML_USE_CPU -DGGML_64BIT=1)
+endif()
+
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Configure logging
+# Configure for Android
 add_definitions(-DANDROID -DGGML_USE_CPU)
 
-# --- LLAMA.CPP SOURCES ---
-# We need to compile llama.cpp logic along with our bridge.
-# The source files are in llama.cpp subfolder.
+# Disable features we don't need on mobile to speed up compilation
+set(GGML_CUDA OFF CACHE BOOL "" FORCE)
+set(GGML_VULKAN OFF CACHE BOOL "" FORCE)
+set(GGML_METAL OFF CACHE BOOL "" FORCE)
+set(GGML_BLAS OFF CACHE BOOL "" FORCE)
+set(GGML_OPENCL OFF CACHE BOOL "" FORCE)
+set(GGML_SYCL OFF CACHE BOOL "" FORCE)
+set(LLAMA_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+set(LLAMA_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(LLAMA_BUILD_SERVER OFF CACHE BOOL "" FORCE)
+set(BUILD_SHARED_LIBS ON CACHE BOOL "" FORCE)
 
-# Include paths
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/llama.cpp/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/llama.cpp/ggml/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/llama.cpp/src
-)
+# Add llama.cpp as a subdirectory (it will build itself)
+add_subdirectory(llama.cpp)
 
-# Collect source files (simplified for CPU-only first pass)
-# This list might need adjustment based on llama.cpp version
-set(LLAMA_SOURCES
-    llama.cpp/src/llama.cpp
-    llama.cpp/src/llama-vocab.cpp
-    llama.cpp/src/llama-grammar.cpp
-    llama.cpp/src/llama-sampling.cpp
-    llama.cpp/src/unicode.cpp
-    llama.cpp/src/unicode-data.cpp
-    llama.cpp/ggml/src/ggml.c
-    llama.cpp/ggml/src/ggml-alloc.c
-    llama.cpp/ggml/src/ggml-backend.c
-    llama.cpp/ggml/src/ggml-quants.c
-    # Add other necessary files as needed
-)
-
-# Define the shared library
+# Build our bridge library
 add_library(
     ai_edge_native
     SHARED
     native_lib.cpp
-    ${LLAMA_SOURCES}
 )
 
-# Link necessary system libraries
-find_library(
-    log-lib
+# Include directories
+target_include_directories(ai_edge_native PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/llama.cpp/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/llama.cpp/ggml/include
+)
+
+# Link against the llama library built by the subdirectory
+target_link_libraries(ai_edge_native
+    llama
     log
-)
-
-target_link_libraries(
-    ai_edge_native
-    ${log-lib}
 )
