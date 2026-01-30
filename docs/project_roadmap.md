@@ -8,10 +8,10 @@ Ce document servira de guide tout au long du développement. Nous cocherons les 
 - [x] Tester le modèle `Phi-3` avec un script Python.
 - [x] Valider que le modèle fonctionne hors-ligne.
 
-## Phase 2 : Fondations de l'Application Mobile (En cours)
-- [ ] Initialiser le projet Flutter (`flutter create`).
-- [ ] Nettoyer le code par défaut et organiser l'architecture (dossiers `lib/core`, `lib/ui`, etc.).
-- [ ] Configurer les assets (polices, images, modèle IA).
+## Phase 2 : Fondations de l'Application Mobile (Terminé) ✅
+- [x] Initialiser le projet Flutter (`flutter create`).
+- [x] Nettoyer le code par défaut et organiser l'architecture (dossiers `lib/core`, `lib/ui`, etc.).
+- [x] Configurer les assets (polices, images, modèle IA).
 
 ## Phase 3 : Intégration du Moteur IA
 - [ ] Ajouter la dépendance Flutter pour `llama.cpp` (ex: `fllama` ou binding manuel).
