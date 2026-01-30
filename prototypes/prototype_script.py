@@ -1,9 +1,10 @@
 from llama_cpp import Llama
+import os
 
 llm = Llama(
-    model_path="./phi-3-mini-4k-instruct.Q4_K_M.gguf",
+    model_path="../assets/models/Phi-3-mini-4k-instruct-q4.gguf",
     n_ctx=2048,
-    n_threads=4,
+    n_threads= min(4, os.cpu_count() or 4),
     verbose=False
 )
 
