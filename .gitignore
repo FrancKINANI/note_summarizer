@@ -19,3 +19,5 @@ android/local.properties
 assets/models/*.gguf
 *.crdownload
 .DS_Store
+app/android/app/src/native/llama.cpp
+app/native/llama.cpp

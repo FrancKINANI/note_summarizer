@@ -13,10 +13,12 @@ Ce document servira de guide tout au long du développement. Nous cocherons les 
 - [x] Nettoyer le code par défaut et organiser l'architecture (dossiers `lib/core`, `lib/ui`, etc.).
 - [x] Configurer les assets (polices, images, modèle IA).
 
-## Phase 3 : Intégration du Moteur IA
-- [ ] Ajouter la dépendance Flutter pour `llama.cpp` (ex: `fllama` ou binding manuel).
-- [ ] Créer un service (`AIService`) pour charger le modèle en arrière-plan.
-- [ ] Tester l'inférence (génération de texte) directement dans l'app mobile (sur simulateur ou téléphone).
+## Phase 3 : Intégration du Moteur IA (En cours) 🚧
+- [x] Télécharger et configurer `llama.cpp` (code source C++).
+- [x] Créer le pont C++ (`native_lib.cpp`) avec les fonctions `load`, `infer`, `unload`.
+- [x] Configurer le build Android (CMakeLists.txt + build.gradle.kts).
+- [x] Créer le service Dart FFI (`ai_service.dart`).
+- [ ] Compiler et tester sur un appareil Android réel.
 
 ## Phase 4 : Interface Utilisateur (UI)
 - [ ] Créer l'écran d'accueil (Design moderne).

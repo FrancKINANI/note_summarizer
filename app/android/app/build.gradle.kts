@@ -28,6 +28,25 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+
+        // Native build configuration for llama.cpp integration
+        externalNativeBuild {
+            cmake {
+                cppFlags += "-std=c++17"
+                arguments += "-DANDROID_STL=c++_shared"
+            }
+        }
+        ndk {
+            abiFilters += listOf("arm64-v8a", "armeabi-v7a", "x86_64")
+        }
+    }
+
+    // Link to CMakeLists.txt
+    externalNativeBuild {
+        cmake {
+            path = file("src/native/CMakeLists.txt")
+            version = "3.22.1"
+        }
     }
 
     buildTypes {
