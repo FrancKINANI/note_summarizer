@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+prototypes/__pycache__/
+
+# Flutter
+.dart_tool/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+
+# Android
+android/local.properties
+
+# Project Assets
+assets/models/*.gguf
+*.crdownload
+.DS_Store
