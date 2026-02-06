@@ -216,5 +216,3 @@ Suggested first tasks:
 - This project was authored/organized per the GOAL.md architecture document.
 
 ---
-
-If anything is unclear or you want a specific "next-step" PR template, I can add that too. Happy to help convert the Python prototype into a small automated test or into the first Flutter demo screen.
